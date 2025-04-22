@@ -1,0 +1,10 @@
+English_In this course we cover the fundamentals of English.
+Maths_In this course we cover the fundamentals of Maths.
+Biology_In this course we cover the fundamentals of Biology.
+Chemistry_In this course we cover the fundamentals of Chemistry.
+Physics_In this course we cover the fundamentals of Physics.
+Art_In this course we cover the fundamentals of Art.
+Psychology_In this course we cover the fundamentals of Psychology.
+History_In this course we cover the fundamentals of History.
+Music_In this course we cover the fundamentals of Music.
+Geography_In this course we cover the fundamentals of Geography.
