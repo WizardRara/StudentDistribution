@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Group {
     private int groupId;
     private final String groupName;
-    private int studentCount;
 
     public Group(String groupName) {
         this.groupName = groupName;
@@ -13,10 +12,6 @@ public class Group {
 
     public void setGroupId(int groupId) {
         this.groupId = groupId;
-    }
-
-    public void setStudentCount(int studentsCount) {
-        this.studentCount = studentsCount;
     }
 
     public int getGroupId() {
@@ -27,16 +22,11 @@ public class Group {
         return groupName;
     }
 
-    public int getStudentCount() {
-        return studentCount;
-    }
-
     @Override
     public String toString() {
         return "Group{" +
                 "groupId=" + groupId +
                 ", groupName='" + groupName + '\'' +
-                ", studentsCount=" + studentCount +
                 '}';
     }
 

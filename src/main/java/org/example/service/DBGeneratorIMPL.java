@@ -11,38 +11,28 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DBGeneratorIMPL implements DBGenerator {
-    private final DataReaderIMPL dataReaderIMPL;
-    private static final String FIRST_NAMES = "first_names";
-    private static final String LAST_NAMES = "last_names";
-    private static final String COURSES = "courses";
-    private static final String DASH = "-";
-    private static final String UNDERSCORE = "_";
-    private static final String SPACE = " ";
+    private final DataReader dataReader;
     private static final Random random = new Random();
 
-    public DBGeneratorIMPL(DataReaderIMPL dataReaderIMPL) {
-        this.dataReaderIMPL = dataReaderIMPL;
+    public DBGeneratorIMPL(DataReader dataReader) {
+        this.dataReader = dataReader;
     }
 
     @Override
     public List<Student> getStudentsList() {
-        List<String> firstNames = dataReaderIMPL.readDataFromFile(FIRST_NAMES);
-        List<String> lastNames = dataReaderIMPL.readDataFromFile(LAST_NAMES);
-        return Stream.generate(() -> getRandomName(firstNames) +
-                SPACE +
-                getRandomName(lastNames))
+        List<String> firstNames = dataReader.readStudentsFirstNames();
+        List<String> lastNames = dataReader.readStudentsLastNames();
+        return Stream.generate(() ->"%s_%s".formatted(getRandomName(firstNames), getRandomName(lastNames)))
                 .distinct()
                 .limit(200)
-                .map(line -> createEntity(line, SPACE, Student::new))
+                .map(line -> createEntity(line, Student::new))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Group> getGroupsList() {
-        return Stream.generate(() -> String.valueOf(getRandomChar()) +
-                        getRandomChar() +
-                        DASH +
-                        random.nextInt(10, 100))
+        return Stream.generate(() -> "%c%c-%d".formatted(getRandomChar(), getRandomChar(),
+                        random.nextInt(90) + 10))
                 .distinct()
                 .limit(10)
                 .map(Group::new)
@@ -51,9 +41,9 @@ public class DBGeneratorIMPL implements DBGenerator {
 
     @Override
     public List<Course> getCoursesList() {
-        List<String> coursesAndDescriptions = dataReaderIMPL.readDataFromFile(COURSES);
+        List<String> coursesAndDescriptions = dataReader.readCourses();
         return coursesAndDescriptions.stream()
-                .map(line -> createEntity(line, UNDERSCORE, Course::new))
+                .map(line -> createEntity(line, Course::new))
                 .collect(Collectors.toList());
     }
 
@@ -61,8 +51,8 @@ public class DBGeneratorIMPL implements DBGenerator {
         return names.get(random.nextInt(names.size()));
     }
 
-    private <T> T createEntity (String line, String separator, BiFunction<String, String, T> constructor) {
-        String [] lineSplit = line.split(separator);
+    private <T> T createEntity (String line, BiFunction<String, String, T> constructor) {
+        String [] lineSplit = line.split("_");
         return constructor.apply(lineSplit[0], lineSplit[1]);
     }
 
