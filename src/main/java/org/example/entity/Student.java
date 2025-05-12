@@ -1,20 +1,23 @@
 package org.example.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Student {
     private final String firstName;
     private final String lastName;
-    private Integer groupId;
+    private Group group;
     private int studentId;
+    private final List<Course> courseList = new ArrayList<>();
 
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public void setStudentId(int studentId) {
@@ -29,12 +32,16 @@ public class Student {
         return lastName;
     }
 
-    public Integer getGroupId() {
-        return groupId;
+    public Group getGroup() {
+        return group;
     }
 
     public int getStudentId() {
         return studentId;
+    }
+
+    public List<Course> getCourseList() {
+        return courseList;
     }
 
     @Override
@@ -42,7 +49,7 @@ public class Student {
         return "Student{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", groupId=" + groupId +
+                ", group=" + group +
                 ", studentId=" + studentId +
                 '}';
     }

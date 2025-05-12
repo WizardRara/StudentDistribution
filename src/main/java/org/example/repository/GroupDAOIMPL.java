@@ -6,16 +6,16 @@ import org.example.entity.Group;
 import java.sql.*;
 import java.util.List;
 
-public class GroupWriteDAOIMPL implements GroupWriteDAO {
+public class GroupDAOIMPL implements GroupDAO {
     private final TransactionManager transactionManager;
     private static final String SQL_INSERT_GROUP_NAMES = "INSERT INTO groups (group_name) VALUES (?)";
 
-    public GroupWriteDAOIMPL(TransactionManager transactionManager) {
+    public GroupDAOIMPL(TransactionManager transactionManager) {
         this.transactionManager = transactionManager;
     }
 
     @Override
-    public List<Group> insertGroupsReturningGroupId(List<Group> groups) {
+    public List<Group> insertGroups(List<Group> groups) {
         return transactionManager.doInTransaction(connection -> {
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_GROUP_NAMES,
                     Statement.RETURN_GENERATED_KEYS)) {
@@ -36,6 +36,6 @@ public class GroupWriteDAOIMPL implements GroupWriteDAO {
                 }
             }
             return groups;
-        }, Boolean.FALSE);
+        }, false);
     }
 }

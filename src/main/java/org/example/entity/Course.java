@@ -1,11 +1,14 @@
 package org.example.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Course {
     private final String courseName;
     private final String courseDescription;
     private int courseId;
+    private final List<Student> studentList = new ArrayList<>();
 
     public Course(String courseName, String courseDescription) {
         this.courseName = courseName;
@@ -26,6 +29,10 @@ public class Course {
 
     public int getCourseId() {
         return courseId;
+    }
+
+    public List<Student> getStudentList() {
+        return studentList;
     }
 
     @Override

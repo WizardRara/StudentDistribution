@@ -3,10 +3,7 @@ package org.example;
 import org.example.config.DBConnection;
 import org.example.config.PropertiesLoader;
 import org.example.repository.*;
-import org.example.service.DBGeneratorIMPL;
-import org.example.service.DataReaderIMPL;
-import org.example.service.DistributionService;
-import org.example.service.DistributionServiceIMPL;
+import org.example.service.*;
 
 import java.util.Properties;
 
@@ -22,10 +19,12 @@ public class Main {
 
         DistributionService distributionService = new DistributionServiceIMPL(
                 new DBGeneratorIMPL(new DataReaderIMPL(loader)),
-                new CourseWriteDAOIMPL(transactionManager),
-                new GroupWriteDAOIMPL(transactionManager),
-                new StudentCourseWriteDAOIMPL(transactionManager),
-                new StudentWriteDAOIMPL(transactionManager));
+                new CourseDAOIMPL(transactionManager),
+                new GroupDAOIMPL(transactionManager),
+                new StudentCourseDAOIMPL(transactionManager),
+                new StudentDAOIMPL(transactionManager),
+                new StudentGroupDistributionIMPL(),
+                new StudentCourseDistributionIMPL());
         distributionService.distributeAll();
     }
 }

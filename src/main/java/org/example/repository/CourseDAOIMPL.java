@@ -6,17 +6,17 @@ import org.example.entity.Course;
 import java.sql.*;
 import java.util.List;
 
-public class CourseWriteDAOIMPL implements CourseWriteDAO {
+public class CourseDAOIMPL implements CourseDAO {
     private final TransactionManager transactionManager;
     private static final String SQL_INSERT_COURSES =
             "INSERT INTO courses (course_name, course_description) VALUES (?, ?)";
 
-    public CourseWriteDAOIMPL(TransactionManager transactionManager) {
+    public CourseDAOIMPL(TransactionManager transactionManager) {
         this.transactionManager = transactionManager;
     }
 
     @Override
-    public List<Course> insertCoursesReturningCourseIds(List<Course> courses) {
+    public List<Course> insertCourses(List<Course> courses) {
         return transactionManager.doInTransaction(connection -> {
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_COURSES,
                     Statement.RETURN_GENERATED_KEYS)) {
@@ -38,6 +38,6 @@ public class CourseWriteDAOIMPL implements CourseWriteDAO {
                 }
                 return courses;
             }
-        }, Boolean.FALSE);
+        }, false);
     }
 }
