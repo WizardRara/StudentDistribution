@@ -1,5 +1,7 @@
 package org.example.config;
 
+import org.example.Exeption.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,7 +20,7 @@ public class DBConnection {
                     propertiesLoader.getProperty("db.user"),
                     propertiesLoader.getProperty("db.password"));
         } catch (SQLException e) {
-            throw new RuntimeException("Connection Error", e);
+            throw new DatabaseException("Connection Error: ", e);
         }
     }
 }

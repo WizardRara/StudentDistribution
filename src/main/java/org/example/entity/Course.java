@@ -1,20 +1,18 @@
 package org.example.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Course {
     private final String courseName;
     private final String courseDescription;
-    private int studentCount;
     private int courseId;
+    private final List<Student> studentList = new ArrayList<>();
 
     public Course(String courseName, String courseDescription) {
         this.courseName = courseName;
         this.courseDescription = courseDescription;
-    }
-
-    public void setStudentCount(int studentCount) {
-        this.studentCount = studentCount;
     }
 
     public void setCourseId(int courseId) {
@@ -29,12 +27,12 @@ public class Course {
         return courseDescription;
     }
 
-    public int getStudentCount() {
-        return studentCount;
-    }
-
     public int getCourseId() {
         return courseId;
+    }
+
+    public List<Student> getStudentList() {
+        return studentList;
     }
 
     @Override
@@ -42,7 +40,6 @@ public class Course {
         return "Course{" +
                 "courseName='" + courseName + '\'' +
                 ", courseDescription='" + courseDescription + '\'' +
-                ", studentCount=" + studentCount +
                 ", courseId=" + courseId +
                 '}';
     }

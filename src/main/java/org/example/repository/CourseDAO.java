@@ -5,6 +5,5 @@ import org.example.entity.Course;
 import java.util.List;
 
 public interface CourseDAO {
-    List<Course> insertCoursesReturningCourseIds(List<Course> courses);
-    void updateCoursesStudentsCount(List<Course> courses);
+    List<Course> insertCourses(List<Course> courses);
 }

@@ -1,56 +1,43 @@
 package org.example.repository;
 
-import org.example.config.DBConnection;
+import org.example.Exeption.CourseInsertException;
 import org.example.entity.Course;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class CourseDAOIMPL implements CourseDAO {
-    private final DBConnection dbConnection;
-    private static final String SQL_INSERT_COURSES_RETURNING_COURSE_ID =
-            "INSERT INTO courses (course_name, course_description) VALUES (?, ?) RETURNING courses.course_id";
-    private static final String COURSE_ID_COLUMN_NAME = "course_id";
-    private static final String SQL_UPDATE_STUDENTS_COUNT =
-            "UPDATE courses SET student_count = ? WHERE course_id = ?";
+    private final TransactionManager transactionManager;
+    private static final String SQL_INSERT_COURSES =
+            "INSERT INTO courses (course_name, course_description) VALUES (?, ?)";
 
-    public CourseDAOIMPL(DBConnection dbConnection) {
-        this.dbConnection = dbConnection;
+    public CourseDAOIMPL(TransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
     }
 
     @Override
-    public List<Course> insertCoursesReturningCourseIds(List<Course> courses) {
-        try (Connection connection = dbConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_COURSES_RETURNING_COURSE_ID)) {
-            for (Course course : courses) {
-                preparedStatement.setString(1, course.getCourseName());
-                preparedStatement.setString(2, course.getCourseDescription());
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        course.setCourseId(resultSet.getInt(COURSE_ID_COLUMN_NAME));
+    public List<Course> insertCourses(List<Course> courses) {
+        return transactionManager.doInTransaction(connection -> {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_COURSES,
+                    Statement.RETURN_GENERATED_KEYS)) {
+                for (Course course : courses) {
+                    preparedStatement.setString(1, course.getCourseName());
+                    preparedStatement.setString(2, course.getCourseDescription());
+                    preparedStatement.addBatch();
+                }
+                preparedStatement.executeBatch();
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    for (Course course : courses) {
+                        if (generatedKeys.next()) {
+                            course.setCourseId(generatedKeys.getInt(1));
+                        } else {
+                            throw new CourseInsertException("Failed to retrieve generated key for student: " +
+                                    course.getCourseName());
+                        }
                     }
                 }
+                return courses;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("Ошибка при вставке курсов: " + e.getMessage(), e);
-        }
-        return courses;
-    }
-
-    @Override
-    public void updateCoursesStudentsCount(List<Course> courses) {
-        try (Connection connection = dbConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_STUDENTS_COUNT)) {
-            for (Course course : courses) {
-                preparedStatement.setInt(1, course.getStudentCount());
-                preparedStatement.setInt(2, course.getCourseId());
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Ошибка при вставке счетчика студентов: " + e.getMessage(), e);
-        }
+        }, false);
     }
 }
