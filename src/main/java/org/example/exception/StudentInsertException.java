@@ -1,4 +1,4 @@
-package org.example.Exeption;
+package org.example.exception;
 
 public class StudentInsertException extends DatabaseException {
     public StudentInsertException(String message, Throwable cause) {

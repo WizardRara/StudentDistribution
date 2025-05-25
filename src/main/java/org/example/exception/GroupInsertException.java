@@ -1,4 +1,4 @@
-package org.example.Exeption;
+package org.example.exception;
 
 public class GroupInsertException extends DatabaseException {
     public GroupInsertException(String message, Throwable cause) {

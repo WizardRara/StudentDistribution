@@ -10,6 +10,11 @@ public class Group {
         this.groupName = groupName;
     }
 
+    public Group(int groupId, String groupName) {
+        this.groupId = groupId;
+        this.groupName = groupName;
+    }
+
     public void setGroupId(int groupId) {
         this.groupId = groupId;
     }

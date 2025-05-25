@@ -1,6 +1,6 @@
 package org.example.config;
 
-import org.example.Exeption.FileReadException;
+import org.example.exception.FileReadException;
 
 import java.io.IOException;
 import java.nio.file.Files;
