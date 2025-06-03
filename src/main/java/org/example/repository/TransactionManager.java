@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import org.example.Exeption.TransactionException;
+import org.example.exception.TransactionException;
 import org.example.config.DBConnection;
 
 import java.sql.Connection;

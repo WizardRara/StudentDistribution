@@ -1,6 +1,6 @@
 package org.example.config;
 
-import org.example.Exeption.DatabaseException;
+import org.example.exception.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

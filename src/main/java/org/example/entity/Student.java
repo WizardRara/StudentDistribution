@@ -9,11 +9,24 @@ public class Student {
     private final String lastName;
     private Group group;
     private int studentId;
-    private final List<Course> courseList = new ArrayList<>();
+    private List<Course> courseList = new ArrayList<>();
 
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Student(int studentId, String firstName, String lastName) {
+        this.studentId = studentId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Student(int studentId, String firstName, String lastName, Group group) {
+        this.studentId = studentId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.group = group;
     }
 
     public void setGroup(Group group) {
@@ -22,6 +35,10 @@ public class Student {
 
     public void setStudentId(int studentId) {
         this.studentId = studentId;
+    }
+
+    public void setCourseList(List<Course> courseList) {
+        this.courseList = courseList;
     }
 
     public String getFirstName() {

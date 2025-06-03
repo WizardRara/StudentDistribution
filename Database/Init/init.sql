@@ -17,6 +17,6 @@ CREATE TABLE courses (
 );
 
 CREATE TABLE student_courses (
-    student_id INT REFERENCES students(student_id),
+    student_id INT REFERENCES students(student_id) ON DELETE CASCADE ,
     course_id INT REFERENCES courses(course_id)
 );

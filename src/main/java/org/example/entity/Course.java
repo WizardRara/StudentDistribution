@@ -6,11 +6,22 @@ import java.util.Objects;
 
 public class Course {
     private final String courseName;
-    private final String courseDescription;
+    private String courseDescription;
     private int courseId;
     private final List<Student> studentList = new ArrayList<>();
 
     public Course(String courseName, String courseDescription) {
+        this.courseName = courseName;
+        this.courseDescription = courseDescription;
+    }
+
+    public Course(int courseId, String courseName) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+    }
+
+    public Course(int courseId, String courseName, String courseDescription) {
+        this.courseId = courseId;
         this.courseName = courseName;
         this.courseDescription = courseDescription;
     }
