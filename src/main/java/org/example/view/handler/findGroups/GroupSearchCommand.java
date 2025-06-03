@@ -4,11 +4,12 @@ import org.example.dto.GroupWithCount;
 import org.example.service.group.GroupSelect;
 import org.example.util.InputValidator;
 import org.example.view.component.GroupView;
+import org.example.view.handler.Command;
 
 import java.util.List;
 import java.util.OptionalInt;
 
-public class GroupSearchHandlerImpl implements GroupSearchHandler {
+public class GroupSearchCommand implements Command {
     private final GroupView groupView;
     private final InputValidator inputValidator;
     private final GroupSelect groupSelect;
@@ -19,14 +20,14 @@ public class GroupSearchHandlerImpl implements GroupSearchHandler {
     private final static String RETURN = "Returning to main menu";
     private final static String INCORRECT_INPUT = "Please enter correct number";
 
-    public GroupSearchHandlerImpl(GroupView groupView, InputValidator inputValidator, GroupSelect groupSelect) {
+    public GroupSearchCommand(GroupView groupView, InputValidator inputValidator, GroupSelect groupSelect) {
         this.groupView = groupView;
         this.inputValidator = inputValidator;
         this.groupSelect = groupSelect;
     }
 
     @Override
-    public void findGroups() {
+    public void execute() {
         int amountOfStudents = getUserInputOrReturn();
         if (amountOfStudents == -1) return;
         List<GroupWithCount> groups = groupSelect.groupSelectByUser(amountOfStudents);

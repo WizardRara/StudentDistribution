@@ -4,18 +4,19 @@ import org.example.entity.Student;
 import org.example.service.student.StudentDelete;
 import org.example.service.student.StudentSelect;
 import org.example.view.component.StudentView;
+import org.example.view.handler.Command;
 import org.example.view.selector.StudentSelector;
 
 import java.util.List;
 
-public class DeleteStudentHandlerImpl implements DeleteStudentHandler {
+public class DeleteStudentCommand implements Command {
     private final StudentView studentView;
     private final StudentSelect studentSelect;
     private final StudentSelector studentSelector;
     private final StudentDelete studentDelete;
 
-    public DeleteStudentHandlerImpl(StudentView studentView, StudentSelect studentSelect,
-                                    StudentSelector studentSelector, StudentDelete studentDelete) {
+    public DeleteStudentCommand(StudentView studentView, StudentSelect studentSelect,
+                                StudentSelector studentSelector, StudentDelete studentDelete) {
         this.studentView = studentView;
         this.studentSelect = studentSelect;
         this.studentSelector = studentSelector;
@@ -23,7 +24,7 @@ public class DeleteStudentHandlerImpl implements DeleteStudentHandler {
     }
 
     @Override
-    public void deleteStudentById() {
+    public void execute() {
         List<Student> students = studentSelect.getAllStudents();
         studentView.showStudents(students);
         Student selected = studentSelector.selectStudentByUser(students);

@@ -105,12 +105,8 @@ public class StudentDAOIMPL implements StudentDAO {
     @Override
     public boolean deleteById(int studentId) {
         return transactionManager.doInTransaction(connection -> {
-            String sqlDeleteFromStudentCourses = "DELETE FROM student_courses WHERE student_id = ?";
             String sqlDeleteFromStudents = "DELETE FROM students WHERE student_id = ?";
-            try (PreparedStatement deleteCourses = connection.prepareStatement(sqlDeleteFromStudentCourses);
-            PreparedStatement deleteStudents = connection.prepareStatement(sqlDeleteFromStudents)) {
-                deleteCourses.setInt(1, studentId);
-                deleteCourses.executeUpdate();
+            try (PreparedStatement deleteStudents = connection.prepareStatement(sqlDeleteFromStudents)) {
                 deleteStudents.setInt(1, studentId);
                 int affectedRows = deleteStudents.executeUpdate();
                 return affectedRows == 1;
